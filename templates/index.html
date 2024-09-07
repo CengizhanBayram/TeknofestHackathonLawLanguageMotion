@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LawLanguageMotion - Hukuk Mesajlaşma Botu</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="sidebar">
+        <img src="/static/logo.png" alt="LLM Logo" class="logo">
+        <a href="/">Anasayfa</a>
+        <a href="/about">Hakkımızda</a>
+        <a href="/project">Projemiz</a>
+    </div>
+
+    <div class="main">
+        <h1>LawLanguageMotion - LawLanguage BOT</h1>
+        <div id="chat-box" class="chatbox"></div>
+
+        <form action="/chat" method="POST" id="message-form">
+            <input id="user-message" name="msg" type="text" placeholder="Bir soru sor..." required>
+            <button type="submit">Gönder</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('message-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+
+        fetch('/chat', {
+            method: 'POST',
+            body: formData
+        }).then(response => response.json()).then(data => {
+            const chatBox = document.getElementById('chat-box');
+            chatBox.innerHTML += `<div class="message user"><div class="bubble">${formData.get('msg')}</div></div>`;
+            chatBox.innerHTML += `<div class="message bot"><div class="bubble">${data.answer}</div></div>`;
+            chatBox.innerHTML += 
+                `<div class="feedback-options">
+                    <button class="like-btn" data-input="${formData.get('msg')}" data-response="${data.answer}">Beğendim</button>
+                    <button class="dislike-btn" data-input="${formData.get('msg')}" data-response="${data.answer}">Beğenmedim</button>
+                </div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Event listeners for feedback buttons
+            document.querySelectorAll('.like-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const input = this.getAttribute('data-input');
+                    const response = this.getAttribute('data-response');
+                    sendFeedback(input, response, "like");
+                    this.parentElement.remove();
+                });
+            });
+
+            document.querySelectorAll('.dislike-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const input = this.getAttribute('data-input');
+                    const response = this.getAttribute('data-response');
+                    showFeedbackForm(input, response);
+                    this.parentElement.remove();
+                });
+            });
+        });
+    });
+
+    function sendFeedback(input, response, rating, feedback_text = '', preferred_response = '') {
+        const feedbackData = {
+            input_prompt: input,
+            response: response,
+            rating: rating,
+            feedback_text: feedback_text,
+            preferred_response: preferred_response
+        };
+
+        fetch('/feedback', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(feedbackData)
+        });
+    }
+
+    function showFeedbackForm(input, response) {
+        const chatBox = document.getElementById('chat-box');
+        chatBox.innerHTML += 
+            `<div class="message user">
+                <div class="bubble">Lütfen alternatif bir yanıt ve geri bildirim veriniz:</div>
+            </div>
+            <div class="feedback-form">
+                <input type="text" id="feedback-text" placeholder="Geri bildiriminiz..." />
+                <input type="text" id="preferred-response" placeholder="Beklenen yanıt..." />
+                <button class="submit-feedback">Gönder</button>
+            </div>`;
+
+        document.querySelector('.submit-feedback').addEventListener('click', function () {
+            const feedback_text = document.getElementById('feedback-text').value;
+            const preferred_response = document.getElementById('preferred-response').value;
+            sendFeedback(input, response, "dislike", feedback_text, preferred_response);
+            document.querySelector('.feedback-form').remove();
+        });
+    }
+</script>
+
+</body>
+</html>
