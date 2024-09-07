@@ -1,0 +1,50 @@
+# LangChain ve onun içinde kullanılan bileşenler
+langchain==0.0.189
+
+# FAISS için gerekli paketler
+faiss-cpu==1.7.3
+
+# Çevresel değişkenleri yüklemek için
+python-dotenv==1.0.0
+
+# UUID oluşturma ve yönetim için
+uuid==1.30
+
+# PDF dosyaları ile çalışmak için
+langchain_community==0.0.8
+
+# TQDM ile süreç çubukları ve çoklu işlemci desteği
+tqdm==4.64.0
+
+# OpenAI API'leri için
+openai==0.27.0
+
+# Amazon Web Services (AWS) SDK
+boto3==1.28.0
+
+# HTML içeriğini metne dönüştürmek için
+html2text==2020.1.16
+
+# JSON verileriyle çalışmak için
+json5==0.9.8
+
+# HTTP istekleri için
+requests==2.31.0
+
+# Re kullanarak regex işlemleri
+regex==2023.6.3
+
+# Tokenizer işlemleri için
+tiktoken==0.3.3
+
+# Zaman işleme için
+pytz==2023.3
+
+# PDF dosyalarını yüklemek için (LangChain PyPDFLoader)
+PyPDF2==3.0.1
+
+# Argparse komut satırı argümanları işlemek için
+argparse==1.4.0
+
+# Multiprocessing ile CPU'yu verimli kullanmak için
+multiprocessing==2.6.2.1
