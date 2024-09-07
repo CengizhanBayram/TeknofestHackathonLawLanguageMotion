@@ -11,8 +11,8 @@ Hukuk öğrencilerinin karmaşık hukuki bilgilere erişim ve anlamada yaşadı�
 
 ## Uygulamadan Ekran Görüntüleri
 
-![Uygulama Ekranı 1](image1.png)
-![Uygulama Ekranı 2](image2.png)
+![image](https://github.com/user-attachments/assets/ade142d4-12d7-4c6b-9def-8933b6aa6dc6)
+![image](https://github.com/user-attachments/assets/485f93dc-cc0e-4ae5-8536-ffe623044f30)
 
 ## Uygulamayı Lokalde Çalıştırma
 
